@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
         $schedule->job(new DeleteLoosePendingFiles)->everyThreeMinutes();
         $schedule->job(new SetUsersNeedsApprovalToFalse)->everySixHours();
-        $schedule->job(new ScanSomeFilesArchivePaths)->everyThirtyMinutes();
+        $schedule->job(new ScanSomeFilesArchivePaths)->everyFifteenMinutes();
 
         $schedule->command('sitemap:generate')->everyTwoHours();
 

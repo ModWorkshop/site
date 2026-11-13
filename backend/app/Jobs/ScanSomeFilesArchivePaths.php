@@ -23,9 +23,18 @@ class ScanSomeFilesArchivePaths implements ShouldQueue
      */
     public function handle(): void
     {
+        self::scan();
+    }
+
+    public static function scan() {
         ini_set('memory_limit', '5G');
 
-        $files = File::whereNull('archive_paths')->limit(50)->get();
+        $files = File::whereNull('archive_paths')
+            ->whereIn('type', ['zip', '7z', 'rar'])
+            ->limit(500)
+            ->orderBy('size')
+            ->get();
+
         foreach ($files as $file) {
             $file->archive_paths = ScanArchivePaths::scanPathsInArchive($file);
             $file->timestamps = false;
