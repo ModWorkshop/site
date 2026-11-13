@@ -177,6 +177,7 @@ class ModController extends Controller
             'changelog',
             'instructions',
             'custom_version',
+            'custom_mod_type',
         );
 
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod page
