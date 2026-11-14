@@ -172,52 +172,59 @@ class File extends Model
         }
 
         foreach ($gameDef as $kind => $def) {
-            foreach ($this->archive_paths as $path => $item) {
-                $containsBlacklisted = false;
-                $matchesType = false;
+            $doesntContainAnyBlacklisted = true;
+            $containsAny = empty($def['contains_any']);
+            $containsAll = true;
 
+            foreach ($this->archive_paths as $path => $item) {
                 $withoutRoot = str_replace($rootPath.'/', '', $path);
 
                 // Must not contain any of these
                 if (!empty($def['doesnt_contain'])) {
                     foreach ($def['doesnt_contain'] as $folder) {
                         if (fnmatch($folder, $withoutRoot)) {
-                            $containsBlacklisted = true;
+                            $doesntContainAnyBlacklisted = false;
                             break;
                         }
                     }
                 }
 
-                if ($containsBlacklisted) {
-                    break; // Can't be this kind...
+                if (!$doesntContainAnyBlacklisted) {
+                    break;
                 }
 
                 // If contains even one, clear to go
-                if (!empty($def['contains_any'])) {
+                if (!$containsAny && !empty($def['contains_any'])) {
+                    $containsAny = false;
                     foreach ($def['contains_any'] as $folder) {
                         if (fnmatch($folder, $withoutRoot)) {
-                            $matchesType = true;
+                            $containsAny = true;
                             break;
                         }
                     }
-                } else {
-                    $matchesType = true;
                 }
 
                 // Must contain all defined here
-                if ($matchesType && !empty($def['contains_all'])) {
+                if (!empty($def['contains_all'])) {
                     foreach ($def['contains_all'] as $folder) {
                         if (!fnmatch($folder, $withoutRoot)) {
-                            $matchesType = false;
+                            $containsAll = false;
                             break;
                         }
                     }
                 }
 
-                if ($matchesType) {
-                    return $kind;
+                if (!$containsAll) {
+                    break;
                 }
             }
+
+            if (!($doesntContainAnyBlacklisted && $containsAll && $containsAny)) {
+                continue; // Try next type
+            } else {
+                return $kind;
+            }
+
         }
 
         return 'unknown';
