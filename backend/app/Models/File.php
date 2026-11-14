@@ -172,16 +172,20 @@ class File extends Model
         }
 
         foreach ($gameDef as $kind => $def) {
+            $doesntContainArr = Arr::get($def, 'doesnt_contain');
+            $containsAnyArr = Arr::get($def, 'contains_any');
+            $containsAllArr = Arr::get($def, 'contains_all');
+
             $doesntContainAnyBlacklisted = true;
-            $containsAny = empty($def['contains_any']);
+            $containsAny = empty($containsAnyArr);
             $containsAll = true;
 
             foreach ($this->archive_paths as $path => $item) {
                 $withoutRoot = str_replace($rootPath.'/', '', $path);
 
                 // Must not contain any of these
-                if (!empty($def['doesnt_contain'])) {
-                    foreach ($def['doesnt_contain'] as $folder) {
+                if (!empty($doesntContainArr)) {
+                    foreach ($doesntContainArr as $folder) {
                         if (fnmatch($folder, $withoutRoot)) {
                             $doesntContainAnyBlacklisted = false;
                             break;
@@ -194,9 +198,9 @@ class File extends Model
                 }
 
                 // If contains even one, clear to go
-                if (!$containsAny && !empty($def['contains_any'])) {
+                if (!$containsAny && !empty($containsAnyArr)) {
                     $containsAny = false;
-                    foreach ($def['contains_any'] as $folder) {
+                    foreach ($containsAnyArr as $folder) {
                         if (fnmatch($folder, $withoutRoot)) {
                             $containsAny = true;
                             break;
@@ -205,8 +209,8 @@ class File extends Model
                 }
 
                 // Must contain all defined here
-                if (!empty($def['contains_all'])) {
-                    foreach ($def['contains_all'] as $folder) {
+                if (!empty($containsAllArr)) {
+                    foreach ($containsAllArr as $folder) {
                         if (!fnmatch($folder, $withoutRoot)) {
                             $containsAll = false;
                             break;
@@ -219,10 +223,8 @@ class File extends Model
                 }
             }
 
-            if (!($doesntContainAnyBlacklisted && $containsAll && $containsAny)) {
-                continue; // Try next type
-            } else {
-                return $kind;
+            if ($doesntContainAnyBlacklisted && $containsAll && $containsAny) {
+                return $kind; // Try next type
             }
 
         }
