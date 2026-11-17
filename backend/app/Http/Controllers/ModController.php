@@ -685,11 +685,9 @@ class ModController extends Controller
         ]);
 
 
-        $hasAlready = HighlightedMod::where('mod_id', $mod->id)
-            ->where('status', true)
-            ->where(fn($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))
-            ->exists();
-        if ($hasAlready) {
+        $lastHighlight = $mod->lastHighlight;
+
+        if (isset($lastHighlight)) {
             abort(Response::HTTP_NOT_ACCEPTABLE, 'Mod is already actively highlighted. Remove it before doing it again.');
         }
 

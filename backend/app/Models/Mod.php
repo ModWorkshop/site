@@ -847,6 +847,12 @@ class Mod extends Model implements SubscribableInterface
         return $this->hasOne(Suspension::class)->where('status', true);
     }
 
+    public function lastHighlight() : HasOne {
+        return $this->hasOne(HighlightedMod::class)
+            ->where('status', true)
+            ->where('expires_at', ">", now());
+    }
+
     public function computedModType(bool $save=true) {
         if ($this->mod_type_set_by_mod) {
             return;

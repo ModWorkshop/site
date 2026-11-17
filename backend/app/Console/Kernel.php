@@ -44,7 +44,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new DeleteLoosePendingFiles)->everyThreeMinutes();
         $schedule->job(new SetUsersNeedsApprovalToFalse)->everySixHours();
         $schedule->job(new ScanSomeFilesArchivePaths)->everyFifteenMinutes();
-        $schedule->job(new CheckHighlightedModsStatus)->everyFifteenMinutes();
+        $schedule->job(new CheckHighlightedModsStatus)->everyFiveMinutes();
 
         $schedule->command('sitemap:generate')->everyTwoHours();
 

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\HighlightedMod;
+use App\Models\Mod;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -24,7 +25,7 @@ class CheckHighlightedModsStatus implements ShouldQueue
     public function handle(): void
     {
         // Goes over highlighted mods and removes highlighted status from them
-        $mods = HighlightedMod::where('expires_at', '<', now())->whereHas('mod', fn($q) => $q->where('highlighted', true));
+        $mods = Mod::where('highlighted', true)->whereDoesntHave('lastHighlight')->get();
 
         foreach ($mods as $mod) {
             $mod->highlighted = false;
