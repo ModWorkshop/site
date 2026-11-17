@@ -66,6 +66,7 @@ class ModResource extends BaseResource
             'parser_version' => $this->parser_version,
             'mod_type' => $this->mod_type,
             'custom_mod_type' => $this->custom_mod_type,
+            'highlighted' => $this->highlighted,
             'breadcrumb' => $this->whenAppended('breadcrumb'),
             'download' => $this->whenAppended('download'),
             'version' => $this->whenAppended('version'),

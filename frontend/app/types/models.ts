@@ -166,6 +166,7 @@ export interface Mod {
 	ignored?: boolean;
 	mod_type: string;
 	custom_mod_type: string;
+	highlighted?: boolean;
 }
 
 export interface Breadcrumb {
