@@ -29,7 +29,7 @@ if (route.name === 'g-game') {
 		'tags': useRouteQuery('selected-tags', []).value,
 		'block_tags': useRouteQuery('filtered-tags', []).value,
 		'sort': useRouteQuery('sort', sortBy).value,
-		'mod_types': useRouteQuery('mod-types', sortBy).value,
+		'mod_types': useRouteQuery('mod-types', []).value,
 		'limit': 20
 	});
 	game.value = data.value.game;
