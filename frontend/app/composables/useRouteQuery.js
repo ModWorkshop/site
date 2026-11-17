@@ -44,7 +44,7 @@ export default function (name, defaultValue, cast, statefully) {
 				return cast(data);
 			} else if (cast === 'array') {
 				if (typeof data === 'string') {
-					return data.split(',').map(value => parseInt(value));
+					return data.split(',').map(value => parseInt(value) || value);
 				} else {
 					return clone(defaultValue);
 				}

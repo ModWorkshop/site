@@ -60,6 +60,8 @@ class GetModsRequest extends FilteredRequest
             'collab' => 'boolean|nullable',
             'including_collab' => 'boolean|nullable',
             'including_ignored' => 'boolean|nullable',
+            'mod_types' => 'array|nullable|max:10',
+            'mod_types.*' => 'string|nullable',
             'sort' => Rule::in($this->sortOptions())
         ];
     }

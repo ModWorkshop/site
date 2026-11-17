@@ -156,6 +156,8 @@ return [
                     'suspended',
                     'approved',
                     'has_download',
+                    'highlighted',
+                    'mod_type',
                     'user_id',
                     'listed'
                 ],

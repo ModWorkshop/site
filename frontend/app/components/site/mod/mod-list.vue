@@ -156,6 +156,7 @@ const loadingButton = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
+const mod_types = useRouteQuery('mod-types', []);
 
 const sortByQuery = useRouteQuery('sort');
 const sortBy = computed(() => sortByQuery.value ?? props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'hot_score');
@@ -187,6 +188,7 @@ const searchParams = {
 	'collab': collabComp,
 	// categories: selectedCategories,
 	'block_tags': selectedBlockTags,
+	'mod_types': mod_types,
 	'sort': sortBy,
 	'limit': computed(() => props.limit),
 	...props.params
