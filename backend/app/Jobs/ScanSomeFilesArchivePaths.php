@@ -11,6 +11,8 @@ use Illuminate\Support\Collection;
 
 class ScanSomeFilesArchivePaths implements ShouldQueue
 {
+    public int $timeout = 1800; // 30 min
+
     use Queueable;
 
     /**

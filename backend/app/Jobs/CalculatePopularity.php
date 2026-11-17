@@ -17,6 +17,7 @@ use function set_time_limit;
 
 class CalculatePopularity implements ShouldQueue
 {
+    public int $timeout = 300;
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**

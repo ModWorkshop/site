@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 
 class ComputeModTypesAllMods implements ShouldQueue
 {
+    public int $timeout = 1800; // 30 min
+
     use Queueable;
 
     /**
