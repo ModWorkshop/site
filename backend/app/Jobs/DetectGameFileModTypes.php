@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 
 class DetectGameFileModTypes implements ShouldQueue
 {
+    public int $timeout = 1800; // 30 min
+
     use Queueable;
 
     /**
@@ -26,9 +28,12 @@ class DetectGameFileModTypes implements ShouldQueue
         $this->game->mods()->chunk(250, function(Collection $mods) {
             foreach ($mods as $mod) {
                 foreach ($mod->files as $file) {
-                    $file->mod_type = $file->detectFileModType();
-                    $file->timestamps = false;
-                    $file->save();
+                    $modType = $file->detectFileModType();
+                    if ($file->mod_type !== $modType) {
+                        $file->mod_type = $modType;
+                        $file->timestamps = false;
+                        $file->save();
+                    }
                 }
             }
         });

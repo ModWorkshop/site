@@ -164,6 +164,9 @@ export interface Mod {
 	parser_version?: number;
 	repo_url?: string;
 	ignored?: boolean;
+	mod_type: string;
+	custom_mod_type: string;
+	highlighted?: boolean;
 }
 
 export interface Breadcrumb {

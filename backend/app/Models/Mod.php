@@ -339,6 +339,8 @@ class Mod extends Model implements SubscribableInterface
             'suspended' => $this->suspended,
             'approved' => $this->approved,
             'has_download' => $this->has_download,
+            'highlighted' => $this->highlighted,
+            'mod_type' => $this->mod_type,
             'listed' => $this->has_download && $this->approved && !$this->suspended && $this->visibility == Visibility::public && $this->published_at != null
         ];
     }
@@ -419,6 +421,12 @@ class Mod extends Model implements SubscribableInterface
                 $mod->subscriptions()->create([
                     'user_id' => $mod->user_id
                 ]);
+            }
+        });
+
+        static::saving(function(Mod $mod) {
+            if ($mod->isDirty('custom_mod_type')) {
+                $mod->computedModType(false); // Save happens after this event
             }
         });
     }
@@ -743,7 +751,7 @@ class Mod extends Model implements SubscribableInterface
         // Has only a single file/link so just return it
         // Or mod uses files as versions
         if ($this->files_are_versions || $filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
-            if ($filesLoaded && $file = $this->files[0]) {
+            if ($filesLoaded && $file = $this->files[0] ?? null) {
                 return $file;
             } else if ($linksLoaded) {
                 if (!$onlyFiles) {
@@ -849,6 +857,29 @@ class Mod extends Model implements SubscribableInterface
     public function lastSuspension() : HasOne
     {
         return $this->hasOne(Suspension::class)->where('status', true);
+    }
+
+    public function lastHighlight() : HasOne {
+        return $this->hasOne(HighlightedMod::class)
+            ->where('status', true)
+            ->where('expires_at', ">", now());
+    }
+
+    public function computedModType(bool $save=true) {
+        if ($this->mod_type_set_by_mod) {
+            return;
+        }
+
+        $modType = $this->custom_mod_type;
+        if (empty($modType)) {
+            $modType = $this->getDownload(true)?->mod_type ?? 'unknown';
+        }
+
+        $this->mod_type = $modType;
+
+        if ($save) {
+            $this->save();
+        }
     }
 
     /**

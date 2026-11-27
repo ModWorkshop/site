@@ -51,7 +51,8 @@ class ModUpsertRequest extends FormRequest
             'send_for_approval' => 'boolean|nullable',
             'publish' => 'boolean|nullable',
             'disable_mod_managers' => 'boolean|nullable',
-            'files_are_versions' => 'boolean|nullable'
+            'files_are_versions' => 'boolean|nullable',
+            'custom_mod_type' => 'string|nullable|max:128'
         ];
     }
 }

@@ -228,52 +228,61 @@ class File extends Model
         }
 
         foreach ($gameDef as $kind => $def) {
-            foreach ($this->archive_paths as $path => $item) {
-                $containsBlacklisted = false;
-                $matchesType = false;
+            $doesntContainArr = Arr::get($def, 'doesnt_contain');
+            $containsAnyArr = Arr::get($def, 'contains_any');
+            $containsAllArr = Arr::get($def, 'contains_all');
 
+            $doesntContainAnyBlacklisted = true;
+            $containsAny = empty($containsAnyArr);
+            $containsAll = true;
+
+            foreach ($this->archive_paths as $path => $item) {
                 $withoutRoot = str_replace($rootPath.'/', '', $path);
 
                 // Must not contain any of these
-                if (!empty($def['doesnt_contain'])) {
-                    foreach ($def['doesnt_contain'] as $folder) {
+                if (!empty($doesntContainArr)) {
+                    foreach ($doesntContainArr as $folder) {
                         if (fnmatch($folder, $withoutRoot)) {
-                            $containsBlacklisted = true;
+                            $doesntContainAnyBlacklisted = false;
                             break;
                         }
                     }
                 }
 
-                if ($containsBlacklisted) {
-                    break; // Can't be this kind...
+                if (!$doesntContainAnyBlacklisted) {
+                    break;
                 }
 
                 // If contains even one, clear to go
-                if (!empty($def['contains_any'])) {
-                    foreach ($def['contains_any'] as $folder) {
+                if (!$containsAny && !empty($containsAnyArr)) {
+                    $containsAny = false;
+                    foreach ($containsAnyArr as $folder) {
                         if (fnmatch($folder, $withoutRoot)) {
-                            $matchesType = true;
+                            $containsAny = true;
                             break;
                         }
                     }
-                } else {
-                    $matchesType = true;
                 }
 
                 // Must contain all defined here
-                if ($matchesType && !empty($def['contains_all'])) {
-                    foreach ($def['contains_all'] as $folder) {
+                if (!empty($containsAllArr)) {
+                    foreach ($containsAllArr as $folder) {
                         if (!fnmatch($folder, $withoutRoot)) {
-                            $matchesType = false;
+                            $containsAll = false;
                             break;
                         }
                     }
                 }
 
-                if ($matchesType) {
-                    return $kind;
+                if (!$containsAll) {
+                    break;
                 }
             }
+
+            if ($doesntContainAnyBlacklisted && $containsAll && $containsAny) {
+                return $kind; // Try next type
+            }
+
         }
 
         return 'unknown';
@@ -297,6 +306,8 @@ class File extends Model
                 ScanArchivePaths::dispatch($file);
                 \Log::info('Sent file for scanning paths');
             }
+
+            $file->mod->computedModType();
         });
 
         static::deleting(function(File $file) {
@@ -310,6 +321,8 @@ class File extends Model
                 $mod->download_id = null;
                 $mod->download_type = null;
             }
+
+            $mod->computedModType(false);
 
             $mod->calculateFileStatus(); // Saved here
         });

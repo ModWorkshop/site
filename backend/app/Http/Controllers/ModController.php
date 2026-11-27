@@ -9,6 +9,7 @@ use App\Http\Resources\ModResource;
 use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\HighlightedMod;
 use App\Models\Mod;
 use App\Models\ModLike;
 use App\Models\ModView;
@@ -31,6 +32,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Str;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Mods
@@ -177,6 +179,7 @@ class ModController extends Controller
             'changelog',
             'instructions',
             'custom_version',
+            'custom_mod_type',
         );
 
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod page
@@ -272,6 +275,7 @@ class ModController extends Controller
             if (!$this->user()->hasPermission('manage-mods', $mod->game)) {
                 unset($val['game_id']);
                 unset($val['allowed_storage']);
+                unset($val['custom_mod_type']);
             } else if ($gameId !== $mod->game_id) {
                 $val['category_id'] ??= null; // Ensure to empty the category in case we change the game.
             }
@@ -283,6 +287,7 @@ class ModController extends Controller
         } else {
             if (!$this->user()->hasPermission('manage-mods', $game)) {
                 unset($val['allowed_storage']);
+                unset($val['custom_mod_type']);
             }
 
             $val['user_id'] = $request->user()->id;
@@ -667,6 +672,59 @@ class ModController extends Controller
         ]);
 
         return $suspension;
+    }
+
+    /**
+     * Highlights a mod
+     *
+     * @authenticated
+     */
+    public function highlight(Request $request, Mod $mod) {
+        $val = $request->validate([
+            'expires_at' => 'date|after:now|nullable',
+        ]);
+
+
+        $lastHighlight = $mod->lastHighlight;
+
+        if (isset($lastHighlight)) {
+            abort(Response::HTTP_NOT_ACCEPTABLE, 'Mod is already actively highlighted. Remove it before doing it again.');
+        }
+
+        $mod->update([
+            'highlighted' => true
+        ]);
+
+        HighlightedMod::create([
+            'mod_id' => $mod->id,
+            'game_id' => $mod->game_id,
+            'expires_at' => $val['expires_at']
+        ]);
+    }
+
+    /**
+     * Unhighlights a mod
+     *
+     * @authenticated
+     */
+    public function unhighlight(Request $request, Mod $mod) {
+        $lastHighlight = HighlightedMod
+            ::where('mod_id', $mod->id)
+            ->where('status', true)
+            ->where(fn($q) => $q->whereNull('expires_at')->orWhere('expires_at', '>', now()))
+            ->first();
+
+        if (!isset($lastHighlight)) {
+            abort(Response::HTTP_NOT_ACCEPTABLE, 'Mod is not actively highlighted!');
+        }
+
+        $mod->update([
+            'highlighted' => false
+        ]);
+
+        $lastHighlight->update([
+            'status' => false
+        ]);
     }
 
     /**

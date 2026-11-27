@@ -170,6 +170,10 @@ class ModService {
             $modSearch->whereNotIn('tag_ids',  $val['block_tags']);
         }
 
+        if (!empty($val['mod_types'])) {
+            $modSearch->whereIn('mod_type',  $val['mod_types']);
+        }
+
         $limit = Arr::get($val, 'limit', 20);
 
         $builder = $modSearch->search($val['query'] ?? '');
