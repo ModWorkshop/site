@@ -405,6 +405,7 @@
     "2fa_enter_code": "확인 코드 입력",
     "sso_only_warning": "소셜 로그인 전용!",
     "sso_only_warning_desc": "이메일이나 비밀번호가 설정되어 있지 않으므로 소셜 로그인 없이는 로그인할 수 없습니다. 이메일과 비밀번호를 설정하는 것을 권장합니다!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "비공개 프로필 입니다",
     "follow_with_notifs": "팔로우 및 알림 받기",
     "support_user": "사용자 후원하기",
