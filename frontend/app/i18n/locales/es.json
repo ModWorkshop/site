@@ -405,6 +405,7 @@
     "2fa_enter_code": "Ingresa un código de autentificación",
     "sso_only_warning": "¡Sólo estás usando el inicio de sesión social!",
     "sso_only_warning_desc": "No tienes un correo electrónico ni una contraseña establecidos y solo podrás iniciar una sesión social. ¡Es recomendable que vincules un correo electrónico a tu cuenta y establezcas una contraseña!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Este perfil es privado",
     "follow_with_notifs": "Seguir y recibir notificaciones sobre nuevos mods",
     "support_user": "Apoyar a este usuario",
