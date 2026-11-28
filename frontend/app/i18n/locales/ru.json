@@ -405,6 +405,7 @@
     "2fa_enter_code": "Enter an Authentication Code",
     "sso_only_warning": "Только вход через соц. сети!",
     "sso_only_warning_desc": "У вас нет адреса электронной почты или пароля, поэтому вы не сможете войти в систему без входа через социальные сети. Рекомендуется настроить электронную почту и пароль!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Этот профиль приватный",
     "follow_with_notifs": "Следить за уведомлениями",
     "support_user": "Поддержать пользователя",
