@@ -1,5 +1,5 @@
 <template>
-	<page-block>
+	<page-block size="3xs">
 		<two-factor-login v-if="twoFactor"/>
 		<m-flex v-else-if="!error" column class="mx-auto">
 			<h2 class="mx-auto">{{ $t('logging_you_in') }}</h2>

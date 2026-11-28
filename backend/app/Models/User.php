@@ -540,6 +540,11 @@ class User extends Model implements
 
     #region Attributes
 
+    public function hasPassword(): Attribute
+{
+        return Attribute::make(fn($value, $attrs) => isset($attrs['password']));
+    }
+
     /**
      * Checks if the user has a password and email set to be able to login into the account
      * Used to check whether the user can remove SSO.
@@ -781,12 +786,21 @@ class User extends Model implements
             abort(422);
         }
 
-        $this->forceFill([
-            'pending_email' => $email,
-            'pending_email_set_at' => Carbon::now()
-        ]);
+        if (app()->isLocal() && empty(env('MAIL_FROM_ADDRESS'))) {
+            $this->forceFill([ // Only for local
+                'email' => $email,
+                'pending_email' => null,
+                'pending_email_set_at' => null,
+                'email_verified_at' => $this->freshTimestamp(),
+            ]);
+        } else {
+            $this->forceFill([
+                'pending_email' => $email,
+                'pending_email_set_at' => Carbon::now()
+            ]);
 
-        $this->sendEmailVerification();
+            $this->sendEmailVerification();
+        }
 
         $this->save();
     }

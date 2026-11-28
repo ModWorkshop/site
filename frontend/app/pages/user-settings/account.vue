@@ -16,40 +16,11 @@
 			<h2>{{ $t('password_and_security') }}</h2>
 			<m-flex class="items-center my-3">
 				<label>{{ $t('change_password') }}</label>
-				<m-button class="ml-auto" @click="changePassword = !changePassword">{{ $t(changePassword ? 'cancel' : 'edit') }}</m-button>
-			</m-flex>
-			<template v-if="changePassword">
-				<m-flex>
-					<m-input
-						v-if="isMe && user.signable"
-						v-model="userForm.current_password"
-						autocomplete="off"
-						:label="$t('current_password')"
-						type="password"
-						minlength="12"
-						maxlength="128"
-					/>
-					<m-input
-						v-model="userForm.password"
-						:validity="passValidity"
-						autocomplete="off"
-						:label="$t('new_password')"
-						type="password"
-						minlength="12"
-						maxlength="128"
-					/>
-					<m-input
-						v-model="userForm.confirm_password"
-						:validity="confirmPassValidity"
-						:label="$t('confirm_password')"
-						type="password"
-						minlength="12"
-						maxlength="128"
-					/>
+				<m-flex class="ml-auto">
+					<m-button @click="showChangePasswordModal = true">{{ $t('edit') }}</m-button>
+					<m-button v-if="user.has_password" :disabled="disableResetPass" @click="reset">{{ $t('forgot_password_button') }}</m-button>
 				</m-flex>
-				<small>{{ $t('password_guide') }}</small>
-				<m-link v-if="user.signable" disabled @click="reset">{{ $t('forgot_password_button') }}</m-link>
-			</template>
+			</m-flex>
 			<m-flex class="items-center my-3">
 				<label>{{ $t('2fa') }}</label>
 				<m-flex v-if="isMe" class="ml-auto">
@@ -57,7 +28,12 @@
 						<m-button @click="showTwoFactorModal = 'disable'">{{ $t('disable_2fa') }}</m-button>
 						<m-button @click="showTwoFactorModal = 'recovery-codes'">{{ $t('2fa_recovery_codes') }}</m-button>
 					</template>
-					<m-button v-else @click="showTwoFactorModal = 'enable'">{{ $t('enable_2fa') }}</m-button>
+					<m-dropdown v-else type="tooltip" dropdown-class="p-2" :disabled="user.signable">
+						<m-button :disabled="!user.signable" @click="showTwoFactorModal = 'enable'">{{ $t('enable_2fa') }}</m-button>
+						<template #content>
+							{{ $t('signable_only') }}
+						</template>
+					</m-dropdown>
 				</m-flex>
 				<h3 v-else-if="hasPermission('manage-users')" class="ml-auto">
 					{{ user.two_factor_confirmed_at ? '✅' : '❎' }}
@@ -87,6 +63,7 @@
 			</m-form-modal>
 
 			<two-factor-auth-modal v-model="showTwoFactorModal" :user="user"/>
+			<change-password-modal v-model="showChangePasswordModal" :user="user"/>
 		</m-flex>
 	</m-form>
 </template>
@@ -103,9 +80,6 @@ const { user } = defineProps<{
 const userForm = reactive({
 	unique_name: user.unique_name,
 	email: user.email,
-	password: '',
-	current_password: '',
-	confirm_password: '',
 	purged_user: user.purged_user
 });
 
@@ -113,7 +87,6 @@ const { public: config } = useRuntimeConfig();
 
 const fc = createEventHook();
 const { t } = useI18n();
-const changePassword = ref(false);
 const { user: me, setUser, logout, hasPermission } = useStore();
 
 const { showToast } = useToaster();
@@ -127,9 +100,11 @@ const deleteUserCheckBox = ref(false);
 const captchaToken = ref('-');
 
 const showTwoFactorModal = ref<'hidden' | 'enable' | 'disable' | 'recovery-codes'>('hidden');
+const showChangePasswordModal = ref(false);
+const disableResetPass = ref(false);
 
 const canDeleteUser = computed(() =>
-	deleteUserCheckBox.value && captchaToken.value && deleteUserUniqueName.value === userForm?.unique_name ? true : false
+	deleteUserCheckBox.value && (!config.hcaptchaSiteKey || captchaToken.value) && deleteUserUniqueName.value === userForm?.unique_name ? true : false
 );
 
 function downloadData() {
@@ -137,19 +112,6 @@ function downloadData() {
 		downloadDataButton.value.click();
 	}
 }
-
-const passValidity = computed(() => {
-	const validity = passwordValidity(userForm.password);
-	if (validity) {
-		return t(validity);
-	}
-});
-
-const confirmPassValidity = computed(() => {
-	if (userForm.confirm_password && userForm.password !== userForm.confirm_password) {
-		return t('password_error_match');
-	}
-});
 
 const isMe = inject<boolean>('isMe');
 
@@ -184,11 +146,8 @@ async function save() {
 
 		if (isMe) {
 			setUser(nextUser);
+			Object.assign(user, nextUser);
 		}
-
-		userForm.password = '';
-		userForm.confirm_password = '';
-		userForm.current_password = '';
 
 		fc.trigger(userForm);
 	} catch (error) {
@@ -198,6 +157,12 @@ async function save() {
 
 async function reset() {
 	if (me) {
+		disableResetPass.value = true;
+
+		setTimeout(() => {
+			disableResetPass.value = false;
+		}, 10000);
+
 		await postRequest('forgot-password', {
 			email: me.email
 		});

@@ -100,4 +100,4 @@ RUN chown -R devuser:devuser /app
 USER devuser
 
 # Install composer packages
-CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && (php artisan schedule:work &) && php artisan serve --host=0.0.0.0"]
+CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && (php -d max_execution_time=0 artisan schedule:work &) && php artisan serve --host=0.0.0.0"]

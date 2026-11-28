@@ -316,6 +316,7 @@ export interface User {
 	active_supporter?: Supporter;
 	has_supporter_perks?: boolean;
 	signable?: boolean;
+	has_password?: boolean;
 	extra?: {
 		default_mods_view: string;
 		default_mods_sort: string;

@@ -39,14 +39,12 @@
 					:side="side"
 					:align="align"
 					class="z-50"
-					force-mount
 					:side-offset="2"
 					:collision-padding="32"
 					:avoid-collisions="true"
 				>
 					<AnimatePresence>
 						<Motion
-						v-if="open"
 						:class="computedClass"
 						:initial="{ opacity: 0, translateY: -8 }"
 						:animate="{ opacity: 1, translateY: 0 }"
