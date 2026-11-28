@@ -405,6 +405,7 @@
     "2fa_enter_code": "Enter an Authentication Code",
     "sso_only_warning": "Pouze Přihlášení Přes Sociální Síť!",
     "sso_only_warning_desc": "Nemáte nastaven e-mail ani heslo, takže se nebudete moci přihlásit bez přihlášení k sociální síti. Doporučuje se nastavit e-mail a heslo!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Tento profil je soukromý",
     "follow_with_notifs": "Sledovat s upozorněními",
     "support_user": "Podpořit Uživatele",
