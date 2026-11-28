@@ -405,6 +405,7 @@
     "2fa_enter_code": "Inserisci un Codice di Autenticazione",
     "sso_only_warning": "Solo per Account Social!",
     "sso_only_warning_desc": "Non è impostata nessuna mail o password e non potrai accedere senza un account social. Raccomandiamo di impostare mail e password!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Questo profilo è privato 0.o",
     "follow_with_notifs": "Segui e ricevi le notifiche",
     "support_user": "Supporta Utente",
