@@ -405,6 +405,7 @@
     "2fa_enter_code": "Enter an Authentication Code",
     "sso_only_warning": "ソーシャルログイン限定！",
     "sso_only_warning_desc": "電子メールまたはパスワードが設定されていないため、ソーシャル ログイン以外ではサインインできません! メールアドレスとパスワードを設定することをお勧めします。",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "このプロフィールは非公開です",
     "follow_with_notifs": "フォローして通知を受け取る",
     "support_user": "ユーザーをサポート",
