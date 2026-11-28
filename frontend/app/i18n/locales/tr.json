@@ -405,6 +405,7 @@
     "2fa_enter_code": "Bir Kimlik Doğrulama Kodu Girin",
     "sso_only_warning": "Sadece Sosyal Medya Girişi!",
     "sso_only_warning_desc": "Ayarlanmış bir e-postanız veya şifreniz yok ve bu nedenle sosyal oturum açmadan oturum açamayacaksınız. Bir e-posta ve şifre oluşturmanız önerilir!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Bu profil gizlidir",
     "follow_with_notifs": "Takip edin ve yeni modlardan haberdar olun",
     "support_user": "Kullanıcıyı Destekle",
