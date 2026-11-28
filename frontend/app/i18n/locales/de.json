@@ -405,6 +405,7 @@
     "2fa_enter_code": "Enter an Authentication Code",
     "sso_only_warning": "Nur Sozialer Netzwerk Login!",
     "sso_only_warning_desc": "Du hast keine Email-Adresse oder Passwort angegeben und kannst dich somit nicht ohne Soziales Netzwerk einloggen. Wir empfehlen dir, Email-Adresse und Passwort einzurichten!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Dieses Profil ist privat",
     "follow_with_notifs": "Folge mit Benachrichtigungen",
     "support_user": "Nutzer unterstützen",
