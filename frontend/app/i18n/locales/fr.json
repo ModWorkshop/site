@@ -405,6 +405,7 @@
     "2fa_enter_code": "Enter an Authentication Code",
     "sso_only_warning": "Login Social Seulement !",
     "sso_only_warning_desc": "Vous n'avez pas d'email ou de mot de passe enregistré et vous ne pourrez pas vous identifier sans login social. Il est recommandé d'enregistrer un email et un mot de passe !",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Ce profil est privé",
     "follow_with_notifs": "Suivre avec notifications",
     "support_user": "Support utilisateur",
