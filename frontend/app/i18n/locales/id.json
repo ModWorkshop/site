@@ -405,6 +405,7 @@
     "2fa_enter_code": "Enter an Authentication Code",
     "sso_only_warning": "Hanya Bisa Masuk Melalui Sosial Media!",
     "sso_only_warning_desc": "Anda tidak mempunyai email atau kata kunci yang sudah ditetapkan dan Anda tidak bisa daftar tanpa masuk melalui sosial media. Anda dierkomendasikan untuk menetapkan email dan kata kunci!",
+    "signable_only": "This feature is only available for users with an email and password set!",
     "private_profile_notice": "Profil ini rahasia",
     "follow_with_notifs": "Ikuti dengan pemberitahuan",
     "support_user": "Dukung Pengguna",
